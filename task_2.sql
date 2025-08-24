@@ -1,39 +1,43 @@
 -- task_2.sql
--- CREATE TABLES FOR alx_book_store
 
+CREATE DATABASE IF NOT EXISTS alx_book_store;
 USE alx_book_store;
 
-CREATE TABLE AUTHORS (
-    AUTHOR_ID INT PRIMARY KEY,
-    NAME VARCHAR(100),
-    COUNTRY VARCHAR(50)
+CREATE TABLE authors (
+    author_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    country VARCHAR(50)
 );
 
-CREATE TABLE BOOKS (
-    BOOK_ID INT PRIMARY KEY,
-    TITLE VARCHAR(200),
-    AUTHOR_ID INT,
-    PRICE DECIMAL(10,2),
-    PUBLICATION_YEAR YEAR
+CREATE TABLE books (
+    book_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    author_id INT,
+    price DECIMAL(10,2) NOT NULL,
+    publication_year YEAR,
+    FOREIGN KEY (author_id) REFERENCES authors(author_id)
 );
 
-CREATE TABLE CUSTOMERS (
-    CUSTOMER_ID INT PRIMARY KEY,
-    NAME VARCHAR(100),
-    EMAIL VARCHAR(100),
-    PHONE VARCHAR(20),
-    ADDRESS VARCHAR(255)
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(20),
+    address VARCHAR(255)
 );
 
-CREATE TABLE ORDERS (
-    ORDER_ID INT PRIMARY KEY,
-    CUSTOMER_ID INT,
-    ORDER_DATE DATE
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
 
-CREATE TABLE ORDER_DETAILS (
-    ORDER_DETAIL_ID INT PRIMARY KEY,
-    ORDER_ID INT,
-    BOOK_ID INT,
-    QUANTITY INT
+CREATE TABLE order_details (
+    order_detail_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    book_id INT,
+    quantity INT NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (book_id) REFERENCES books(book_id)
 );
