@@ -2,6 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 
 def create_server_connection(host_name, user_name, user_password):
+    """Establish connection to MySQL server"""
     connection = None
     try:
         connection = mysql.connector.connect(
@@ -14,9 +15,9 @@ def create_server_connection(host_name, user_name, user_password):
         print(f"❌ Error: '{err}'")
     return connection
 
-
-# Create database function
+# Create Database
 def create_database(connection, query):
+    """Execute a database creation query"""
     cursor = connection.cursor()
     try:
         cursor.execute(query)
@@ -24,11 +25,11 @@ def create_database(connection, query):
     except Error as err:
         print(f"❌ Error: '{err}'")
 
-
 if __name__ == "__main__":
-    # Step 1: connect to MySQL server
+    # Connect to server
     connection = create_server_connection("localhost", "root", "")
 
-    # Step 2: create the 'alxbookstore' database
+    # SQL statement to create the database
     create_database_query = "CREATE DATABASE alxbookstore"
-    create_database(connection, create_database_query)
+    if connection:
+        create_database(connection, create_database_query)
